@@ -1,5 +1,6 @@
 package com.saucelabs.mydemoapp.android.pageObjects
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.ViewMatchers
@@ -38,6 +39,7 @@ class PaymentDetailsPageObjects {
     fun fillCardNumber(number: String) {
         try {
             helper.enterText(cardNumber, number)
+            closeSoftKeyboard()
         } catch (e: Exception) {
             Logger.e("Payment", "Error filling card number", e)
             throw e // Rethrow to handle the error further up if needed
@@ -47,6 +49,7 @@ class PaymentDetailsPageObjects {
     fun fillExpirationNumber(expNumber: String) {
         try {
             helper.enterText(expirationDate, expNumber)
+            closeSoftKeyboard()
         } catch (e: Exception) {
             Logger.e("Payment", "Error filling expiration number", e)
             throw e // Rethrow to handle the error further up if needed
