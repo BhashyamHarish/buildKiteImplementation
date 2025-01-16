@@ -34,7 +34,6 @@ class EmptyCartTest : BaseTest<SplashActivity>(SplashActivity::class.java){
             productListPage.clickOnProductFromRecycler(0)
             productDetailsPageObjects.clickOnCart()
             cartPageObjects.verifyCartPageWithoutAnyProduct()
-            //cartPageObjects.clickOnCheckOut()
         }catch (e:Exception){
             Logger.e("EmptyCartTest", "Failed at method product purchase validation")
         }
