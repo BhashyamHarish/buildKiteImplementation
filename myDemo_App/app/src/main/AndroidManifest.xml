@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<uses-feature
+		android:name="android.hardware.camera"
+		android:required="false" />
+
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+	<application
+		android:name=".MyApplication"
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:largeHeap="true"
+		android:roundIcon="@mipmap/ic_launcher_round"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme">
+		<uses-library android:name="android.test.runner" android:required="false" />
+
+	   <activity
+			android:name=".view.activities.SplashActivity"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name=".view.activities.MainActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize|locale"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			tools:ignore="LockedOrientationActivity" />
+		<activity
+			android:name=".view.activities.DebugCrashActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize|locale"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			tools:ignore="LockedOrientationActivity" />
+		<activity
+			android:name=".view.activities.VirtualUsbActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize|locale"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			tools:ignore="LockedOrientationActivity" />
+	</application>
+
+</manifest>

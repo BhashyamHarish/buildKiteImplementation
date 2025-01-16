@@ -1,0 +1,9 @@
+{
+  "fullName": "John-Doe",
+  "address1": "123 Main Street",
+  "address2": "Apt 4B",
+  "city": "New York",
+  "state": "NY",
+  "zip": "10001",
+  "country": "USA"
+}

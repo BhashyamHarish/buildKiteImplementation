@@ -1,0 +1,14 @@
+{
+  "dev": {
+    "baseUrl": "https://dev.example.com",
+    "apiKey": "dev-api-key"
+  },
+  "staging": {
+    "baseUrl": "https://staging.example.com",
+    "apiKey": "staging-api-key"
+  },
+  "production": {
+    "baseUrl": "https://example.com",
+    "apiKey": "prod-api-key"
+  }
+}

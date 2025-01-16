@@ -1,0 +1,193 @@
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.dokka'
+}
+
+android {
+    signingConfigs {}
+
+    compileSdkVersion 34
+    useLibrary 'org.apache.http.legacy'
+    ndkVersion '21.3.6528147'
+    namespace 'com.saucelabs.mydemoapp.android'
+    defaultConfig {
+        applicationId 'com.saucelabs.mydemoapp.android'
+        minSdkVersion 28
+        targetSdkVersion 34
+        versionCode 1 // CI automatically replaces this
+        versionName '1.0.0'// CI automatically replaces this
+        multiDexEnabled true
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+       // testInstrumentationRunnerArguments["orchestrator"] = "true"
+      //  testInstrumentationRunnerArguments["numShards"] = "2"
+      //  testInstrumentationRunner "com.saucelabs.mydemoapp.android.utils.CustomRunner"
+         testInstrumentationRunnerArguments = [
+                clearPackageData: 'true',
+        //     listener: 'com.saucelabs.mydemoapp.android.MyTestCollector'
+        ]
+
+        buildConfigField "String", "SAUCE_USERNAME", "\"${System.getenv('SAUCE_USERNAME')}\""
+        buildConfigField "String", "SAUCE_ACCESS_KEY", "\"${System.getenv('SAUCE_ACCESS_KEY')}\""
+        buildConfigField(
+                'String',
+                'BUILDKITE_ANALYTICS_TOKEN',
+                "\"${System.getenv("BUILDKITE_ANALYTICS_TOKEN")}\""
+        )
+    }
+
+    testOptions {
+        animationsDisabled true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-notice.md'
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            enableAndroidTestCoverage false
+
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        dataBinding = true
+        mlModelBinding true
+        buildConfig = true
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    signingConfigs {
+        debug {
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+}
+
+
+
+
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Test Runner and Junit dependencies
+    androidTestImplementation 'androidx.test:runner:1.6.1'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+    // testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
+    testImplementation "org.junit.vintage:junit-vintage-engine:5.10.3"
+    implementation 'androidx.test.ext:junit-ktx:1.2.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation project(':app')
+
+    androidTestUtil 'androidx.test:orchestrator:1.5.1'
+
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "androidx.biometric:biometric:1.1.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation 'com.google.android.material:material:1.12.0'
+
+    // Room dependencies
+    def room_version = "2.6.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
+
+
+    // Utils
+    implementation 'com.github.gcacace:signature-pad:1.3.1'
+    implementation(name:'com.kyanogen.signatureview.signature-view', ext:'aar')
+    implementation(name:'com.williamww.silky-signature', ext:'aar')
+    implementation(name:'com.uphyca.creditcardedittext', ext:'aar')
+    implementation 'org.openjfx:javafx-controls:20'
+    implementation "com.squareup.okhttp3:okhttp:4.9.0"
+
+    //Retrofit
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.guava:guava:33.0.0-android'
+
+    def camerax_version = "1.1.0"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-view:${camerax_version}"
+    implementation "com.google.zxing:core:3.3.3"
+
+    // Backtrace SDK
+    implementation 'com.github.backtrace-labs.backtrace-android:backtrace-library:3.7.0'
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+
+    // Espresso dependencies
+    implementation 'androidx.test.espresso:espresso-web:3.6.1'
+    implementation 'androidx.test.uiautomator:uiautomator:2.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.6.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
+    implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
+
+    //Kotlin dependencies
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
+    testImplementation "org.jetbrains.kotlin:kotlin-test:2.0.0" // Match your Kotlin version
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:2.0.0"
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    implementation 'io.github.microutils:kotlin-logging:2.1.23'    // Kotlin logging library (optional)
+    implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.21"
+
+    // Allure Android dependencies
+    implementation 'io.qameta.allure:allure-kotlin-commons:2.4.0'
+    implementation 'io.qameta.allure:allure-kotlin-model:2.4.0'
+    testImplementation 'io.qameta.allure:allure-junit5:2.17.0'// For JUnit4
+    implementation 'io.qameta.allure:allure-kotlin-android:2.4.0'
+    androidTestImplementation("com.buildkite.test-collector-android:instrumented-test-collector:0.1.0")
+
+    androidTestUtil 'androidx.test:orchestrator:1.4.1'
+
+}
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'org.jetbrains.dokka'
